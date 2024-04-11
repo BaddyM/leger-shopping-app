@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leger - {{ page }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome/css/all.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/Lizzy.jpg' %}" type="image/x-icon">
+</head>
+<body>
+    <div class="brand_name">
+        {% with brand='Leger' %}
+        <p class="mb-0">
+            {{ brand }}
+        </p>
+        {% endwith %}
+    </div>
+
+    <nav class="brand-background d-flex justify-content-around align-items-center p-2">
+        <div>
+
+        </div>
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link">Home <i class="fa fa-home"></i></a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'categories' %}" class="nav-link">Categories</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'about' %}" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'contact' %}" class="nav-link">Contact Us</a>
+            </li>
+            <li class="nav-item" title="Cart">
+                <a href="{% url 'cart' %}" class="nav-link"><i class="fa fa-shopping-cart"></i></a>
+            </li>
+        </ul>
+        <div>
+            <ul class="nav">
+                <li class="nav-item" title="Login">
+                    <a href="" class="nav-link">Login <i class="fa fa-lock-open"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block body %}
+
+    {% endblock %}
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'js/swiper-bundle.js' %}"></script>
+    
+    {% block scripts %}
+
+    {% endblock %}
+</body>
+</html>

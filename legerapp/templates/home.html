@@ -1,0 +1,71 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="container-fluid">
+    {% if carousel %}
+    <div class="swiper my-3">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+                {% for x in carousel %}
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <div>
+                    <img src="{% static 'images/carousel/' %}{{ x.image_name }}" alt="">
+                </div>
+                <p>{{ x.image_title }}</p>
+            </div>
+                {% endfor %}
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div style="color:brown;" class="swiper-button-prev"></div>
+        <div style="color:brown;" class="swiper-button-next"></div>
+
+        <!-- If we need scrollbar
+        <div class="swiper-scrollbar"></div>
+-->
+    </div>  
+    {% endif %} 
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const swiper = new Swiper('.swiper', {
+            effect: 'cube',
+            grabCursor: true,
+            cubeEffect: {
+                shadow: true,
+                slideShadows: true,
+                shadowOffset: 10,
+                shadowScale: 0.94,
+            },
+            loop: true,
+            speed: 2000,
+
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+            // And if we need scrollbar
+            scrollbar: {
+                el: '.swiper-scrollbar',
+            },
+        });
+    </script>
+{% endblock %}

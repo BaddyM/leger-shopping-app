@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+{% load static %}
+{% block body %}
+<div class="container-fluid">
+    <h5 class="p-1 text-center mb-0 mt-2">Home <i class="fa fa-chevron-right"></i> Contact Us</h5>
+    <h6 class="p-1 text-center mb-0 fw-bold fst-italic" style="color:brown;">Please reach out to us for any inquiries.</h6>
+    <div class="contact_form_container mt-3">
+        <div>
+            <div>
+                <img class="leger_img" src="{% static 'images/Lizzy.jpg' %}" alt="">
+            </div>
+            <div class="w-100">
+                <form action='' method='POST'>
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <input type="text" class="form-control rounded-0 border-dark" name="full_name" required>
+                        <label for="" class="form-label">Enter Full Name</label>
+                    </div>
+        
+                    <div class="form-floating mt-4">
+                        <input type="email" class="form-control rounded-0 border-dark" name="full_email" required>
+                        <label for="" class="form-label">Enter Full Email</label>
+                    </div>
+        
+                    <div class="form-floating mt-4">
+                        <input class="form-control rounded-0 border-dark" name="message" required>
+                        <label for="" class="form-label">Enter Message</label>
+                    </div>
+        
+                    <button class="submit-btn mt-4" type="submit">send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

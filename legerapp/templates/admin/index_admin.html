@@ -1,0 +1,27 @@
+{% extends "admin/master_admin.html" %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row justify-content-around">
+        <div class="card col-md-3 admin_card_1">
+            <div class="card-body">
+                <p class="text-center mb-1">
+                    <span class="card_title">Clients Reached out</span>
+                </p>
+                <p class="mb-1">{{ clients }}</p>
+            </div>
+        </div><!-- Clients Card -->
+
+        <div class="card col-md-3 admin_card_2">
+            <div class="card-body">
+                <p class="text-center mb-1">
+                    <span class="card_title">Products Available</span>
+                </p>
+                <p class="mb-1">{{ clients }}</p>
+            </div>
+        </div><!-- Clients Card -->
+    </div>
+
+</div>
+{% endblock %}

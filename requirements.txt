@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==5.0.4
+django-clearcache==1.2.1
+mysqlclient==2.2.4
+numpy==1.26.4
+pillow==10.3.0
+sqlparse==0.4.4
+typing_extensions==4.11.0

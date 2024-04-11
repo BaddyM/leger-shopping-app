@@ -1,0 +1,206 @@
+@font-face {
+    font-family: 'roboto';
+    src: url('./fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'golden-hills';
+    src: url('./fonts/Hello Valentina.ttf');
+}
+
+body{
+    font-family: 'roboto';
+}
+
+.brand-background{
+    background-color: brown;
+}
+
+.brand-background a{
+    color: white;
+    transition: .4s all ease-in-out;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid transparent;
+}
+
+.is_active_link{
+    color: yellow !important;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+.brand-background a:hover{
+    color: yellow;
+    border-bottom: 3px solid yellow;
+    border-top: 3px solid yellow;
+}
+
+.brand-background li{
+    width: 3cm;
+    text-align: center;
+}
+
+.brand_name{
+    padding: 1px;
+}
+
+.brand_name p{
+    font-size: 35px;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 4px;
+    font-family: 'golden-hills';
+}
+
+input:focus, select:focus, textarea:focus{
+    box-shadow: none !important;
+    outline: none !important;
+}
+textarea{
+    height: 200px !important;
+}
+
+/*--------------------- Carousel ---------------------*/
+.swiper-slide{
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.swiper-slide img{
+    width: 100% !important;
+    height: 500px;
+    object-fit: contain;
+    position: relative;
+}
+
+.swiper-slide p{
+    top: 60%;
+    position: absolute;
+    color: white;
+    font-size: 20px;
+    background: purple;
+    border-radius: 5px;
+    padding: 10px 20px;
+    letter-spacing: 3px;
+    transition: .3s all ease-in-out;
+}
+
+.swiper-slide p:hover{
+    transform: scale(1.05);
+}
+
+/*------------------ Contact Form -------------------------*/
+.contact_form_container{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 2px 2px 5px 5px rgb(128, 128, 128);
+    padding:30px;
+    margin-bottom: 50px;
+}
+
+.contact_form_container input{
+    width: 100%;
+}
+
+.contact_form_container > div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2cm;
+}
+
+.contact_form_container img{
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: .3s all ease-in-out;
+    border-radius: 10px;
+}
+
+.contact_form_container img:hover{
+    transform: scale(1.04);
+}
+
+.submit-btn{
+    text-transform: uppercase;
+    padding: 10px;
+    background: brown;
+    border: 2px brown solid;
+    padding: 10px 30px;
+    color: white;
+    font-weight: bold;
+    transition: .4s all ease-in-out;
+}
+
+.submit-btn:hover{
+    color: brown;
+    background: white;
+}
+
+/*---------------------------- ADMIN ------------------------*/
+.admin_card_1{
+    background: linear-gradient(to right, brown, rgb(227, 71, 71),brown);
+    cursor: pointer;
+    transition: .4s all ease-in-out;
+    box-shadow: 5px 5px 15px rgb(200, 0, 0);
+}
+
+.admin_card_2{
+    background: linear-gradient(to right, rgb(156, 71, 18), rgb(240, 108, 27),rgb(156, 71, 18));
+    cursor: pointer;
+    transition: .4s all ease-in-out;
+    box-shadow: 5px 5px 15px rgb(156, 71, 18);
+}
+
+.card_title{
+    border-bottom: 3px solid yellow;
+    padding: 5px 20px;
+}
+
+.admin_card_1:hover,.admin_card_2:hover{
+    transform: rotate(-5deg);
+}
+
+.admin_card_1 p,.admin_card_2 p{
+    color: white;
+    font-size: 20px;
+}
+
+.underline-text{
+    border-bottom: 3px brown solid;
+    padding: 3px 20px;
+}
+
+.input-brown, 
+.input-brown:focus{
+    border:2px solid brown;
+    padding: 10px;
+}
+
+.form-outer-container{
+    background: brown;
+    padding: 5px;
+}
+
+.form-outer-container > form{
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.5);
+    padding: 25px;
+}
+
+/*------------------------------------- Categories -----------------------------------*/
+.category_list li{
+    margin: 4px;
+    padding: 4px;
+    font-size: 18px;
+    list-style: none;
+
+}
+
+.category_list li:nth-child(even){
+    background: grey;
+    color: white;
+}

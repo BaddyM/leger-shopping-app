@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leger - {{ page }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/Lizzy.jpg' %}" type="image/x-icon">
+</head>
+<body>
+    <div class="brand_name">
+        {% with brand='Leger' %}
+        <p class="mb-0">
+            {{ brand }}
+        </p>
+        {% endwith %}
+    </div>
+
+    <nav class="brand-background d-flex justify-content-around align-items-center p-2">
+        <div>
+
+        </div>
+        <ul class="nav">
+            <li class="nav-item">
+                {% if page == 'Admin-Home' %}
+                    <a href="{% url 'adminindex' %}" class="nav-link is_active_link">Home <i class="fa fa-home"></i></a>
+                {% else %}
+                    <a href="{% url 'adminindex' %}" class="nav-link">Home <i class="fa fa-home"></i></a>
+                {% endif %}
+            </li>
+
+            <li class="nav-item">
+                {% if page == 'Admin-Categories' %}
+                    <a href="{% url 'admincategories' %}" class="nav-link is_active_link">Categories</a>
+                {% else %}
+                    <a href="{% url 'admincategories' %}" class="nav-link">Categories</a>
+                {% endif %}
+            </li>
+
+            <li class="nav-item">
+                {% if page == 'Admin-Product' %}
+                    <a href="{% url 'products' %}" class="nav-link is_active_link">Products</a>
+                {% else %}
+                    <a href="{% url 'products' %}" class="nav-link">Products</a>
+                {% endif %}
+            </li>
+
+            <li class="nav-item">
+                {% if page == 'Admin-About' %}
+                    <a href="{% url 'adminabout' %}" class="nav-link is_active_link">About</a>
+                {% else %}
+                    <a href="{% url 'adminabout' %}" class="nav-link">About</a>
+                {% endif %}
+            </li>
+            <li class="nav-item">
+                {% if page == 'Admin-Contact' %}
+                    <a href="{% url 'contactlist' %}" class="nav-link is_active_link">Contacts</a>
+                {% else %}
+                    <a href="{% url 'contactlist' %}" class="nav-link">Contacts</a>
+                {% endif %}
+            </li>
+        </ul>
+        <div>
+            <ul class="nav">
+                <li class="nav-item" title="Logout">
+                    <a href="" class="nav-link">Logout <i class="fa fa-lock"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="text-center my-4">
+        <span class="fw-bold h5" style="color:brown; border:3px solid brown;padding:10px 20px;">Admin Panel</span>
+    </div>
+
+    {% block body %}
+
+    {% endblock %}
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'js/swiper-bundle.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script>
+        AOS.init();
+    </script>
+    
+    {% block scripts %}
+
+    {% endblock %}
+</body>
+</html>

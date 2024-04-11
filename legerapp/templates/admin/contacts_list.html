@@ -1,0 +1,125 @@
+{% extends "admin/index_admin.html" %}
+
+{% block body %}
+<style>
+    th {
+        color: white;
+    }
+</style>
+
+<h5 class="p-1 mb-0 mt-2">Admin <i class="fa fa-chevron-right"></i> Contact List</h5>
+
+<div class="container-fluid">
+    <h5 class="mb-0 text-center text-uppercase p-2 fw-bolder my-3">Contacts List</h5>
+
+    <div class="card rounded-0 shadow-lg mt-3">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="bg-gradient" style="background:brown;">
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Message</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date Contacted</th>
+                        <th scope="col">Date Read</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data %}
+                    <!-- If the Data is not empty -->
+                        {% for x in data %}
+                        <tr>
+                            <td></td>
+                            <td>{{ x.full_name }}</td>
+                            <td>{{ x.email }}</td>
+                            <td>{{ x.message }}</td>
+                            <td>
+                                {% if x.status == 'unread' %}
+                                <span class="badge bg-secondary">{{ x.status }}</span>
+                                {% else %}
+                                <span class="badge bg-success">{{ x.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ x.created_at }}</td>
+                            <td>{{ x.updated_at }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center" style="gap:10px;">
+                                    <form action="" method="post" class="delete_form">
+                                        {% csrf_token %}
+                                        <input type="hidden" value={{ x.id }} name="status_id">
+                                        <input type="hidden" value='delete' name="status">
+                                        <button class="btn btn-outline-danger rounded-5 delete_btn" title="Delete" type="submit"><i
+                                                class="fa fa-x"></i></button>
+                                    </form>
+
+                                    {% if x.status != 'read' %}
+                                    <form action="" method="post" class="success_form">
+                                        {% csrf_token %}
+                                        <input type="hidden" value={{ x.id }} name="status_id">
+                                        <input type="hidden" value='read' name="status">
+                                        <button class="btn btn-outline-success rounded-5" title="Read" type="submit" value={{ x.id }}><i
+                                                class="fa fa-check"></i></button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <!-- If the Data is empty -->
+                        <tr>
+                            <td colspan="8" class="text-center fw-bold text-danger">Empty Set</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+
+        $(".delete_form").on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "contactlist" %}',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        });
+
+        $(".success_form").on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "contactlist" %}',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        });
+    })
+</script>
+{% endblock %}

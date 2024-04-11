@@ -1,0 +1,332 @@
+{% extends "admin/master_admin.html" %}
+
+{% block body %}
+<style>
+    tr th {
+        color: white;
+        text-align: center;
+    }
+
+    tr td {
+        vertical-align: middle;
+        cursor: pointer;
+    }
+    #productModal input, select, textarea{
+        color:brown !important; 
+        font-weight: bolder;
+    }
+</style>
+
+<div class="container-fluid mb-4" id="body_container">
+    <h5 class="p-1 mb-0 mt-2">Admin <i class="fa fa-chevron-right"></i> Products</h5>
+
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background:brown;">
+                    <h5 class="modal-title text-white" id="modalTitleId">
+                        Update Product
+                    </h5>
+                    <button title="Close" type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div>
+                        <form action="" method="post" enctype="multipart/form-data" id="update_product_form">
+                            {% csrf_token %}
+                            <input type="hidden" value="update_product" name="task">
+                            <input type="hidden" name="edit_product_image_buffer">
+                            <input type="hidden" name="product_id">
+                            <div class="mb-2">
+                                <label for="" class="form-label fw-bold">Product Name</label>
+                                <input type="text" class="form-control rounded-0 input-brown"
+                                    placeholder="Enter Product Name" value="" name="product_name_edit" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="" class="form-label fw-bold">Select Category</label>
+                                <select name="product_category_edit" class="form-select input-brown rounded-0" required>
+                                    {% for x in categories %}
+                                    <option value="{{ x.category_name }}">{{ x.category_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="" class="form-label fw-bold">Product Quantity</label>
+                                <input type="number" min="1" class="form-control rounded-0 input-brown num_inputs"
+                                    placeholder="Enter Product Quantity" name="product_qty_edit" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="" class="form-label fw-bold">Product Price</label>
+                                <input type="number" min="1" class="form-control rounded-0 input-brown num_inputs"
+                                    placeholder="Enter Product Price" name="product_price_edit" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="" class="form-label fw-bold">Product Size: (<span
+                                        class="text-danger fw-bold fst-italic">S, M, L, XL, XXL, XXXL</span>)</label>
+                                <input type="text" min="1" class="form-control rounded-0 input-brown"
+                                    placeholder="Enter Product Size" name="product_size_edit" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="" class="form-label fw-bold">Product Description</label>
+                                <textarea class="form-control rounded-0 input-brown"
+                                    placeholder="Enter Product Description" name="description_edit" required></textarea>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="" class="form-label fw-bold">Product Image</label>
+                                <input type="file" accept=".png, .jpg, .jpeg" class="form-control rounded-0 input-brown"
+                                    name="product_img_edit">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-start">
+                    <button type="submit" class="submit-btn">Update</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- Edit Form -->
+
+    <div class="row justify-content-around mt-4">
+        <div class="col-md-7 overflow-scroll p-3">
+            <div class="card border-0" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="card-header bg-light text-uppercase text-center">
+                    <p class="py-2 mb-0 fw-bold" style="letter-spacing:1px;">
+                        <span class="underline-text h5 fw-bold">Stock Available</span>
+                    </p>
+                </div>
+                <div class="card-body shadow-lg">
+                    <table class="table w-100 table-hover">
+                        <thead style="background:brown;">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if data %}
+                            {% with counter=0 %}
+                            {% for x in data %}
+                            <tr>
+                                <td>{{ x.id }}</td>
+                                <td>{{ x.product_name }}</td>
+                                <td>{{ x.product_category }}</td>
+                                <td>{{ x.items_available }}</td>
+                                <td>{{ x.size }}</td>
+                                <td>{{ x.product_price }}</td>
+                                <td style="color:brown; font-weight:bold; text-align:center;">{{ x.description }}</td>
+                                <td class="text-center w-25">
+                                    {% if x.product_image %}
+                                    <img src="/media/{{ x.product_image }}" class="img-fluid w-25" alt="">
+                                    {% else %}
+                                    <span class="badge bg-danger">No Image</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex" style="gap:10px;">
+                                        <form action="" method="post" class="text-center mb-0 delete_product_form">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="delete_product" name="task">
+                                            <input type="hidden" name="delete_id" value="{{ x.id }}">
+                                            <button title="Delete" type="submit" class="btn btn-danger rounded-5"
+                                                value="{{ x.id }}" name="delete_product"><i
+                                                    class="fa fa-x"></i></button>
+                                        </form>
+
+                                        <form action="" method="post" class="text-center mb-0 edit_product_form">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="edit_product" name="task">
+                                            <input type="hidden" name="edit_id" value="{{ x.id }}">
+                                            <button title="Edit" type="submit" class="btn btn-outline-success rounded-5"
+                                                value="{{ x.id }}" name="edit_product"><i
+                                                    class="fa fa-pen"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endwith %}
+                            {% else %}
+                            <tr>
+                                <td colspan="7" style="text-align:center; color:red; font-weight:bold;">
+                                    No products available
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" data-aos="fade-left" data-aos-duration="1000">
+            <div class="mb-3 text-center">
+                <span class="underline-text h5 fw-bold">Add Products</span>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" value="add_product" name="task">
+                <div class="mb-2">
+                    <label for="" class="form-label fw-bold">Product Name</label>
+                    <input type="text" class="form-control rounded-0 input-brown" placeholder="Enter Product Name"
+                        name="product_name" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="" class="form-label fw-bold">Select Category</label>
+                    <select name="product_category" id="" class="form-select input-brown rounded-0" required>
+                        {% for x in categories %}
+                        <option value="{{ x.category_name }}">{{ x.category_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-2">
+                    <label for="" class="form-label fw-bold">Product Quantity</label>
+                    <input type="number" min="1" class="form-control rounded-0 input-brown num_inputs"
+                        placeholder="Enter Product Quantity" name="product_qty" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="" class="form-label fw-bold">Product Price</label>
+                    <input type="number" min="1" class="form-control rounded-0 input-brown num_inputs"
+                        placeholder="Enter Product Price" name="product_price" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="" class="form-label fw-bold">Product Size: (<span
+                            class="text-danger fw-bold fst-italic">S, M, L, XL, XXL, XXXL</span>)</label>
+                    <input type="text" min="1" class="form-control rounded-0 input-brown"
+                        placeholder="Enter Product Size" name="product_size" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="" class="form-label fw-bold">Product Description</label>
+                    <textarea class="form-control rounded-0 input-brown" placeholder="Enter Product Description"
+                        name="description" required></textarea>
+                </div>
+
+                <div class="mb-2">
+                    <label for="" class="form-label fw-bold">Product Image</label>
+                    <input type="file" accept=".png, .jpg, .jpeg" class="form-control rounded-0 input-brown"
+                        name="product_img" required>
+                </div>
+
+                <button class="submit-btn" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $(document).on('keyup', ".num_inputs", function () {
+            input_value = $(this).val();
+            //Erase if input is invalid
+            if (input_value < 1) {
+                $(this).val(null);
+            }
+        });
+
+        //Delete Product
+        $(".delete_product_form").on('submit', function (e) {
+            e.preventDefault();
+            var confirm_delete = confirm("Are you sure you want to DELETE?");
+            if(confirm_delete == true){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "products" %}',
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+        });
+
+        //Fetch Product Details to modal
+        $(".edit_product_form").on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "products" %}',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (data) {
+                    //RECEIVE DATA
+                    var prod_name = (JSON.parse(data.data))[0]['fields']['product_name'];
+                    var category = (JSON.parse(data.data))[0]['fields']['product_category'];
+                    var price = (JSON.parse(data.data))[0]['fields']['product_price'];
+                    var size = (JSON.parse(data.data))[0]['fields']['size'];
+                    var description = (JSON.parse(data.data))[0]['fields']['description'];
+                    var qty = (JSON.parse(data.data))[0]['fields']['items_available'];
+                    var image = (JSON.parse(data.data))[0]['fields']['product_image'];
+                    var id = (JSON.parse(data.data))[0]['pk'];                    
+
+                    //APPEND DATA TO INPUT
+                    $("input[name='product_name_edit']").val(prod_name);
+                    $("input[name='product_id']").val(id);
+                    $("input[name='product_qty_edit']").val(qty);
+                    $("input[name='product_price_edit']").val(price);
+                    $("input[name='product_size_edit']").val(size);
+                    $("input[name='edit_product_image_buffer']").val(image);
+                    $("textarea[name='description_edit']").val(description);
+                    $("select[name='product_category_edit']").val(category);
+                    //Display the modal
+                    $("#productModal").modal('show');
+                },
+                error: function () {
+                    alert("Error: Failed to Fetch product!");
+                }
+            });
+        });
+
+        //Update the product
+        $("#update_product_form").on('submit', function (e) {
+            e.preventDefault();
+            $("#productModal").modal('hide');
+            $.ajax({
+                type: 'POST',
+                url: '{% url "products" %}',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error: Failed to update record!");
+                }
+            });
+        });
+
+    });
+</script>
+{% endblock %}

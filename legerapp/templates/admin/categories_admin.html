@@ -1,0 +1,39 @@
+{% extends "admin/master_admin.html" %}
+
+{% block body %}
+<div>
+    <h5 class="p-1 mb-0 mt-2">Admin <i class="fa fa-chevron-right"></i> Categories</h5>
+
+    <div class="text-center mb-4">
+        <span class=" fw-bold h5 underline-text">Add Categories of the Products</span>
+    </div><!-- Page Heading -->
+
+    <div class="container-fluid row justify-content-md-around">
+        <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
+            <div class="text-center">
+                <span class="fw-bold underline-text">Available Categories</span>
+            </div>
+            <ol class="category_list">
+                {% for x in data %}
+                <li>{{ x.category_name }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="col-md-4" data-aos="flip-right" data-aos-duration="1000">
+            <div class="form-outer-container">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="" class="form-label fw-bold">Category Name: </label>
+                        <input type="text" class="form-control rounded-0 input-brown" name="category_name" placeholder="Enter Category"
+                            required>
+                    </div>
+
+                    <button class="submit-btn" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
