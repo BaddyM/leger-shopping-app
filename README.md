@@ -1,4 +1,7 @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ THIS IS FULL STACK SHOPPING APP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+The Project requires you to have installed Django *__Django 5.0.4__* on your computer.
+
 To use, follow the steps below.
 1. The virtual environment already exists, so no need for one.
 2. Install the necesssary dependencies using the command below

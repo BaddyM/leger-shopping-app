@@ -2,6 +2,7 @@
 
 {% block body %}
 <div class="container-fluid">
+    <p class="fw-bold h4 mb-4">Welcome: <span class="text-capitalize text-primary">{{ user.username }}</span></p>
 
     <div class="row justify-content-around">
         <div class="card col-md-3 admin_card_1">
@@ -16,12 +17,65 @@
         <div class="card col-md-3 admin_card_2">
             <div class="card-body">
                 <p class="text-center mb-1">
-                    <span class="card_title">Products Available</span>
+                    <span class="card_title">Products in System</span>
                 </p>
-                <p class="mb-1">{{ clients }}</p>
+                <p class="mb-1">{{ products }}</p>
             </div>
         </div><!-- Clients Card -->
     </div>
 
+    <div class="w-25 mt-5">
+        <div class="text-center mb-4">
+            <span class="underline-text">System Data Summary</span>
+        </div>
+        <div>
+            <p class="mb-1">Messages read (<span id="read"></span>/<span id="unread"></span>)</p>
+            <div class="progress">
+                <div id="msg_progress" class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                 role="progressbar">
+                    <span id="msg_percent"></span>
+                </div>
+            </div>
+        </div><!-- Messages -->
+
+        <div class="mt-4">
+            <p class="mb-1">Users</p>
+            <i class="fa fa-users h4"></i> <span class="h4" id="users"></span>
+        </div>
+
+    </div><!-- Data Summary -->
+
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $(window).on('load',function(){
+            $.ajax({
+                type:"POST",
+                url:'{% url "indexajax" %}',
+                data:{
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+                },
+                success:function(response){
+                    console.log(response.msg_read);
+                    
+                    //Messages
+                    $("#read").text(response.msg_read);
+                    $("#unread").text(response.msg_unread);
+                    var msg_percent = parseInt(((response.msg_read)/(response.msg_unread))*100)
+                    $("#msg_percent").text(''+msg_percent+'%');
+                    $("#msg_progress").css('width',''+msg_percent+'%');
+
+                    //Users
+                    $("#users").text(response.users)
+
+                },error:function(){
+                    alert("Error!");
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

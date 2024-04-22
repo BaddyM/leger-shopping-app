@@ -1,8 +1,78 @@
 {% extends "admin/master_admin.html" %}
 
 {% block body %}
-<div>
+<div class="container-fluid">
     <h5 class="p-1 mb-0 mt-2">Admin <i class="fa fa-chevron-right"></i> About</h5>
+    <div class="w-75 ms-auto me-auto mb-4">
+        <div class="row justify-content-between">
+            <div class="col-md-5" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="mb-3 text-center">
+                    <span class="underline-text h5 fw-bold">About Text</span>
+                </div>
 
+                {% if data %}
+                    {{ data.about }}
+                {% else %}
+                    <div class="text-center">
+                        <span class="text-danger fw-bold">About is Empty</span>
+                    </div>
+                {% endif %}
+            </div>
+    
+            <div class="col-md-6" data-aos="flip-right" data-aos-duration="1000">
+                <div class="mb-3 text-center">
+                    <span class="underline-text h5 fw-bold">Add Text</span>
+                </div>
+
+                <div class="d-none">
+                    <p class="mb-0 text-danger fst-italic fw-bold">Note:- Use</p>
+                    <ol>
+                        <li>&lt;br&gt; in the text to go to the next line.</li>
+                        <li>&lt;strong&gt; &lt;<span class="fw-bold">some text</span>&gt; &lt;strong/&gt; to make the text bold.</li>
+                    </ol>
+
+                    <p class="mb-0 text-primary fw-bold">For example:</p>
+                    <p class="mb-0">
+                        I love Wearing &lt;br&gt; these &lt;strong&gt;clothes&lt;strong/&gt; from this store.
+                    </p>
+                    <p class="mb-0 text-primary fw-bold">This would produce <i class="fa fa-arrow-down"></i> </p>
+                    <p class="mb-0">
+                        I love Wearing <br> these <strong>clothes</strong> from this store.
+                    </p>
+                </div>
+
+                <form id="add_about_form" method="post" class="mb-0 mt-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="process" value="add_about_text">
+                    <textarea name="about_text" class="form-control input-brown rounded-0" placeholder="Type About Text"></textarea>
+                    <button class="submit-btn mt-3" type="submit">save</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $("#add_about_form").on('submit',function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url:"{% url 'adminabout' %}",
+                data: new FormData(this),
+                processData:false,
+                contentType:false,
+                cache:false,
+                success:function(response){
+                    alert(response);
+                    location.reload()
+                },error:function(response){
+                    alert("Failed to Save Data");
+                }
+            })
+        })
+    });
+</script>
 {% endblock %}

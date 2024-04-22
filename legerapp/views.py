@@ -1,11 +1,13 @@
-from django.shortcuts import render
-from django.http import JsonResponse
+from django.shortcuts import render,redirect
+from django.http import JsonResponse,HttpResponse
 from .models import *
 import datetime
 import os
-import numpy as np
 from django.conf import settings
 from django.core import serializers
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index_page(request):
@@ -63,22 +65,61 @@ def cart_index(request):
 
 ''' ***************************** Admin Views ***************************** '''
 
+@login_required
 def index_admin(request):
     page = 'Admin-Home'
     clients = len(Contact.objects.all().values())
+    products = len(Product.objects.all().values())     
+        
     context = {
         'page':page,
-        'clients':clients
-    }    
+        'clients':clients,
+        'products':products,
+    }  
+      
     return render(request, 'admin/index_admin.html', context)
 
+@login_required
+def index_ajax_response(request):
+    if request.method == 'POST':
+        #Messages
+        try:
+            msg_read = len(Contact.objects.filter(status='read').values())
+            msg_unread = len(Contact.objects.filter(status='unread').values())
+        except:
+            msg_read = 0
+            msg_unread = 0
+            
+        #Users
+        try:
+            users = len(Contact.objects.all())
+        except:
+            users = 0
+            
+        ajax_data = {
+            'msg_read':msg_read,
+            'msg_unread':msg_unread,
+            'users':users
+        }
+
+        return JsonResponse(ajax_data)
+
+@login_required
 def categories_admin(request):
     page = 'Admin-Categories'
         
     if request.method == 'POST':
-        category_name = request.POST['category_name']
-        save_category = Category(category_name=category_name)
-        save_category.save()
+        process = request.POST['process']
+        print("Process = "+process)
+        if process == 'add_category':
+            category_name = request.POST['category_name']
+            save_category = Category(category_name=category_name)
+            save_category.save()
+        elif process == 'delete_category':
+            id = request.POST['category_id']
+            data = Category.objects.get(id=id)
+            data.delete()
+            return HttpResponse("Successfully Deleted Category.")
     
     #Fetch the data from the DB
     data = Category.objects.all().order_by('-id').values()  
@@ -90,13 +131,35 @@ def categories_admin(request):
     
     return render(request, 'admin/categories_admin.html',context)
 
+@login_required
 def about_admin(request):
     page = 'Admin-About'
+    
+    if request.method == 'POST':
+        process = request.POST['process']
+        if process == 'add_about_text':
+            text = request.POST['about_text']
+            
+            try:
+                get_data = About.objects.get(id=1)
+                get_data.about = text
+                get_data.save()
+                
+                return HttpResponse("Data Updated!")
+            except:
+                #If empty, insert new
+                about_text = About(about=text)
+                about_text.save()
+                return HttpResponse("New Data Inserted!")
+    
+    data = About.objects.get(id=1)
     context = {
-        'page':page
+        'page':page,
+        'data':data
     }    
     return render(request, 'admin/about_admin.html', context)
 
+@login_required
 def product_admin(request):
     page = 'Admin-Product'
     categories = Category.objects.all().order_by('-id').values()
@@ -196,6 +259,7 @@ def product_admin(request):
     
     return render(request, 'admin/product_admin.html',context)
 
+@login_required
 def contact_list(request):
     page = 'Admin-Contact'
     
@@ -226,3 +290,28 @@ def contact_list(request):
             x.save()
 
     return render(request, 'admin/contacts_list.html',context)
+
+def login_user(request):
+    page = 'Login'
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['userpassword']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            print("Logged in")
+            return redirect('adminindex')
+        else:
+            print("Log in Failed")
+            messages.success(request,"Failed: Invalid Credentials")
+            return redirect('login_user')
+     
+    context = {
+         'page':page
+     }       
+    return render(request,'admin/login.html',context)
+
+def logout_user(request):
+    logout(request)
+    return redirect('login_user')

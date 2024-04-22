@@ -27,3 +27,6 @@ class Product(models.Model):
     
 class Category(models.Model):
     category_name = models.CharField(max_length=255)
+    
+class About(models.Model):
+    about = models.TextField()

@@ -11,7 +11,7 @@
         vertical-align: middle;
         cursor: pointer;
     }
-    #productModal input, select, textarea{
+    #productModal input, #productModal select, #productModal textarea{
         color:brown !important; 
         font-weight: bolder;
     }
@@ -126,7 +126,30 @@
                                 <td>{{ x.id }}</td>
                                 <td>{{ x.product_name }}</td>
                                 <td>{{ x.product_category }}</td>
-                                <td>{{ x.items_available }}</td>
+                                <td class="text-center">
+                                    {% if x.items_available == 0 %}
+                                        <span class="text-danger fw-bold">{{ x.items_available }}</span>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <button
+                                                type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="alert"
+                                                aria-label="Close"
+                                            ></button>
+                                            <strong>Alert!</strong> <span class="fw-bold text-decoration-underline">{{ x.product_name }}</span> is out of stock!
+                                        </div>
+                                        
+                                        <script>
+                                            var alertList = document.querySelectorAll(".alert");
+                                            alertList.forEach(function (alert) {
+                                                new bootstrap.Alert(alert);
+                                            });
+                                        </script>
+                                        
+                                    {% else %}
+                                    {{ x.items_available }}
+                                    {% endif %}
+                                </td>
                                 <td>{{ x.size }}</td>
                                 <td>{{ x.product_price }}</td>
                                 <td style="color:brown; font-weight:bold; text-align:center;">{{ x.description }}</td>
@@ -326,7 +349,7 @@
                 }
             });
         });
-        
+
     });
 </script>
 {% endblock %}

@@ -15,7 +15,17 @@
             </div>
             <ol class="category_list">
                 {% for x in data %}
-                <li>{{ x.category_name }}</li>
+                <li class="d-flex justify-content-between align-items-center">
+                    <div>{{ x.category_name }}</div>
+                    <div>
+                        <form method="post" class="delete_form mb-0">
+                            {% csrf_token %}
+                            <input type="hidden" value="delete_category" name="process">
+                            <input type="hidden" value="{{ x.id }}" name="category_id">
+                            <button title="Delete" class="btn btn-outline-danger rounded-5" type=submit><i class="fa fa-x"></i></button>
+                        </form>
+                    </div>
+                </li>
                 {% endfor %}
             </ol>
         </div>
@@ -23,12 +33,12 @@
             <div class="form-outer-container">
                 <form action="" method="post">
                     {% csrf_token %}
+                    <input type="hidden" value="add_category" name="process">
                     <div class="mb-3">
                         <label for="" class="form-label fw-bold">Category Name: </label>
                         <input type="text" class="form-control rounded-0 input-brown" name="category_name" placeholder="Enter Category"
                             required>
                     </div>
-
                     <button class="submit-btn" type="submit">Submit</button>
                 </form>
             </div>
@@ -36,4 +46,31 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $(".delete_form").on('submit',function(e){
+                e.preventDefault();
+                var confirm_delete = confirm("Do you want to continue?");
+                if(confirm_delete == true){
+                    $.ajax({
+                        type:'POST',
+                        url: '{% url "admincategories" %}',
+                        data: new FormData(this),
+                        processData:false,
+                        contentType:false,
+                        cache:false,
+                        success:function(response){
+                            alert(response);
+                            location.reload()
+                        },error:function(response){
+                            alert(response);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 {% endblock %}

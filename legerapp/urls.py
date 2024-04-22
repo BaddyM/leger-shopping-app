@@ -11,5 +11,8 @@ urlpatterns = [
     path('about_admin/',about_admin,name='adminabout'),
     path('categories_admin/',categories_admin,name='admincategories'),
     path('contact_list/',contact_list,name='contactlist'),
-    path('products/',product_admin,name='products')
+    path('products/',product_admin,name='products'),
+    path('index_ajax/',index_ajax_response,name='indexajax'),
+    path('login_user/',login_user, name='login_user'),
+    path('logout_user/',logout_user, name='logout_user')
 ]
