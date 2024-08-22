@@ -8,6 +8,16 @@
     src: url('./fonts/Hello Valentina.ttf');
 }
 
+@font-face {
+    font-family: "dancing-script";
+    src: url("./fonts/DancingScript-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: "bondoni";
+    src: url("./fonts/BodoniModaSC-VariableFont_opsz\,wght.ttf");
+}
+
 body{
     font-family: 'roboto';
 }
@@ -50,6 +60,51 @@ body{
     font-weight: bold;
     letter-spacing: 4px;
     font-family: 'golden-hills';
+}
+
+.navigation-container{
+    width:95%;
+    margin: auto;
+    border-radius:50px;
+}
+
+.useful_links{
+    list-style: none;
+}
+
+.useful_links a{
+    text-decoration: none;
+    color: white;
+}
+
+.footer_brand_name{
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'bondoni';
+}
+
+footer{
+    width:95%;
+    margin: auto;
+    border-radius:50px;
+    background-color: brown;
+    margin-top: 3%;
+    margin-bottom: 2%;
+    padding: 1%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer-map{
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.menu_btn{
+    display: none;
 }
 
 input:focus, select:focus, textarea:focus{

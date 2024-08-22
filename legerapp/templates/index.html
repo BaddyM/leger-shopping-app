@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="{% static 'css/fontawesome/css/all.css' %}">
     <link rel="shortcut icon" href="{% static 'images/Lizzy.jpg' %}" type="image/x-icon">
 </head>
+
 <body>
     <div class="brand_name">
         {% with brand='Leger' %}
@@ -22,33 +24,36 @@
         {% endwith %}
     </div>
 
-    <nav class="brand-background d-flex justify-content-around align-items-center p-2">
-        <div>
-
-        </div>
-        <ul class="nav">
-            <li class="nav-item">
-                <a href="{% url 'home' %}" class="nav-link">Home <i class="fa fa-home"></i></a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'categories' %}" class="nav-link">Categories</a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'about' %}" class="nav-link">About</a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'contact' %}" class="nav-link">Contact Us</a>
-            </li>
-            <li class="nav-item" title="Cart">
-                <a href="{% url 'cart' %}" class="nav-link"><i class="fa fa-shopping-cart"></i></a>
-            </li>
-        </ul>
-        <div>
+    <nav class="brand-background d-flex justify-content-around align-items-center p-2 navigation-container">
+        <div class="d-flex justify-content-between">
             <ul class="nav">
-                <li class="nav-item" title="Login">
-                    <a href="{% url 'login_user' %}" target="_blank" class="nav-link">Login <i class="fa fa-lock-open"></i></a>
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" class="nav-link">Home <i class="fa fa-home"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'categories' %}" class="nav-link">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'contact' %}" class="nav-link">Contact Us</a>
+                </li>
+                <li class="nav-item" title="Cart">
+                    <a href="{% url 'cart' %}" class="nav-link"><i class="fa fa-shopping-cart"></i></a>
                 </li>
             </ul>
+            <div>
+                <ul class="nav">
+                    <li class="nav-item" title="Login">
+                        <a href="{% url 'login_user' %}" target="_blank" class="nav-link">Login <i
+                                class="fa fa-lock-open"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="menu_btn">
+            <button id="nav_menu_btn" class="btn"><i class="bi bi-list"></i></button>
         </div>
     </nav>
 
@@ -56,12 +61,53 @@
 
     {% endblock %}
 
+    <footer>
+        <div>
+            <a href="" class="nav-link">
+                {% with brand='Leger' %}
+                <p class="mb-0 footer_brand_name">
+                    {{ brand }}
+                </p>
+                {% endwith %}
+            </a>
+        </div>
+        <div>
+            <p class="text-white text-center fw-bold text-uppercase mb-1">Useful Links</p>
+            <ul class="useful_links">
+                <li><a href="">Link 1</a></li>
+                <li><a href="">Link 2</a></li>
+                <li><a href="">Link 3</a></li>
+                <li><a href="">Link 4</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <p class="text-white text-center fw-bold text-uppercase mb-1">Location</p>
+            <div>
+                <iframe class="footer-map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15958.781012980837!2d32.57301088511021!3d0.4500213998642495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177db3a2bf5960bf%3A0x3c5e6a1b6ecf4373!2sSsemakokiro%20Pine%20Forest%20Gardens!5e0!3m2!1sen!2sug!4v1719899469094!5m2!1sen!2sug"
+                    style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </footer>
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
     <script src="{% static 'js/swiper-bundle.js' %}"></script>
-    
+    <script>
+        $(document).ready(function () {
+            $("#nav_menu_btn").on('click', function (e) {
+                e.preventDefault();
+                console.log("btn clicked")
+                $(".nav").toggleClass("is_active");
+            })
+        })
+    </script>
+
     {% block scripts %}
 
     {% endblock %}
 </body>
+
 </html>

@@ -1,0 +1,44 @@
+@media only screen and (max-width:768px){
+    .menu_btn{
+        display: block;
+    }
+
+    .nav{
+        display: block;
+        position: absolute;
+        background-color: brown;
+        z-index: 99;
+        right: 100%;
+        margin-top: 7%;
+        width: 50%;
+        transition: all ease-in-out 2s;
+    }
+    
+    .is_active{
+        right:25%;
+    }
+
+    footer{
+        display: block !important;
+        text-align: center;
+    }
+
+    footer > div{
+        margin-bottom: 20px;
+        width: 100% !important;
+    }
+
+    .navigation-container:nth-child(1){
+        display: none !important;
+    }
+
+    .menu_btn i{
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .menu_btn button, .menu_btn button:focus{
+        border: white 1px solid !important;
+    }
+}
